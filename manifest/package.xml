@@ -2,6 +2,7 @@
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
         <members>BookDataCalloutMock</members>
+        <members>EditionComparator</members>
         <members>GetBookDataQueueable</members>
         <members>GetBookDataService</members>
         <members>GetBookDataTest</members>
