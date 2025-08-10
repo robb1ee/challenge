@@ -40,4 +40,43 @@ public with sharing class GetBookDataTest {
         Assert.areEqual(expectedBookList, GetBookDataTestHelper.events[0].Books__c, 'Wrong list of books has been created.');
         Assert.isNull(GetBookDataTestHelper.events[0].Error__c, 'Error field should have been empty.');
     }
+
+    /**
+     * @description Given a list of three books, test that they are ordered correctly by edition.
+     */
+    @IsTest
+    static void testSortingBooksByEdition() {
+        Map<String, Object> bookWithLowerEdition = new Map<String, Object> {
+            'Publisher' => 'Publisher1',
+            'Edition' => 1000,
+            'Author' => 'Author1',
+            'Title' => 'Title1'
+        };
+
+        Map<String, Object> bookWithHigherEdition = new Map<String, Object> {
+            'Publisher' => 'Publisher2',
+            'Edition' => 2000,
+            'Author' => 'Author2',
+            'Title' => 'Title2'
+        };
+
+        Map<String, Object> bookWithMediumEdition = new Map<String, Object> {
+            'Publisher' => 'Publisher3',
+            'Edition' => 1500,
+            'Author' => 'Author3',
+            'Title' => 'Title3'
+        };
+
+        List<Map<String,Object>> books = new List<Map<String,Object>> {
+            bookWithLowerEdition,
+            bookWithHigherEdition,
+            bookWithMediumEdition
+        };
+
+        books.sort(new EditionComparator());
+
+        Assert.areEqual(bookWithHigherEdition, books[0], 'Book with higher edition should have been the first element');
+        Assert.areEqual(bookWithMediumEdition, books[1], 'Book with medium edition should have been the second element');
+        Assert.areEqual(bookWithLowerEdition, books[2], 'Book with higher edition should have been the third element');
+    }
 }
