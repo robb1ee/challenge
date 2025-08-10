@@ -1,6 +1,6 @@
-#Deployment to a scratch org
+# Deployment to a scratch org
 
-##Direct deployment via Salesforce CLI
+## Direct deployment via Salesforce CLI
 Assuming you have the components in your local repository, deploying to a scratch org with alias TargetOrg can be achieved with running
 
 `sf project deploy start --manifest manifest/package.xml --tests GetBookDataTest --test-level RunSpecifiedTests --target-org TargetOrg`
@@ -10,7 +10,7 @@ in the terminal.
 The provided package.xml contains all the necessary components. Instead of only running the single test class, you could also run
 all tests in the target org with `--test-level RunLocalTests`. This might fail if existing implementation has an insufficient code coverage.
 
-##Creating an unlocked package
+## Creating an unlocked package
 Make sure that Dev Hub and the Enable Unlocked Packages settings are enabled and that the development org (alias DevOrg) is registered as the Dev Hub.
 Then, you can create an unlocked package with
 
