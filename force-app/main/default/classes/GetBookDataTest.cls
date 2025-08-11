@@ -42,6 +42,40 @@ public with sharing class GetBookDataTest {
     }
 
     /**
+     * @description Method to test the correct creation of the platform event in the scenario when the callout fails.
+     * In that case, the Error__c field should be populated. 
+     */
+    @IsTest
+    static void testPublishEventWithFailedCallout() {
+        Test.setMock(HttpCalloutMock.class, new BookDataFailedCalloutMock());
+
+        Test.startTest();
+        System.enqueueJob(new GetBookDataQueueable());
+        Test.stopTest();
+
+        Assert.areEqual(1, GetBookDataTestHelper.events.size(), 'One event should have been created.');
+        Assert.isNull(GetBookDataTestHelper.events[0].Books__c, 'No book data should have been published.');
+        Assert.isNotNull(GetBookDataTestHelper.events[0].Error__c, 'Error message concerning the failed callout should have been published.');
+    }
+
+    /**
+     * @description Method to test the correct creation of the platform event in the scenario when the callout responds with an unexpected content.
+     * In that case, the Error__c field should be populated. 
+     */
+    @IsTest
+    static void testPublishEventWithUnexpectedContentCallout() {
+        Test.setMock(HttpCalloutMock.class, new BookDataUnexpectedContentCalloutMock());
+
+        Test.startTest();
+        System.enqueueJob(new GetBookDataQueueable());
+        Test.stopTest();
+
+        Assert.areEqual(1, GetBookDataTestHelper.events.size(), 'One event should have been created.');
+        Assert.isNull(GetBookDataTestHelper.events[0].Books__c, 'No book data should have been published.');
+        Assert.isNotNull(GetBookDataTestHelper.events[0].Error__c, 'Error message concerning the failed callout should have been published.');
+    }
+
+    /**
      * @description Given a list of three books, test that they are ordered correctly by edition.
      */
     @IsTest
@@ -77,6 +111,6 @@ public with sharing class GetBookDataTest {
 
         Assert.areEqual(bookWithHigherEdition, books[0], 'Book with higher edition should have been the first element');
         Assert.areEqual(bookWithMediumEdition, books[1], 'Book with medium edition should have been the second element');
-        Assert.areEqual(bookWithLowerEdition, books[2], 'Book with higher edition should have been the third element');
+        Assert.areEqual(bookWithLowerEdition, books[2], 'Book with lower edition should have been the third element');
     }
 }
