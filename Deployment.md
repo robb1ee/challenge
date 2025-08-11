@@ -1,7 +1,7 @@
 # Deployment to a scratch org
 
 ## Direct deployment via Salesforce CLI
-Assuming you have the components in your local repository, deploying to a scratch org with alias TargetOrg can be achieved with running
+Assuming you have the components in your local repository and Salesforce CLI installed, deploying to a scratch org with alias TargetOrg can be achieved with running
 
 `sf project deploy start --manifest manifest/package.xml --tests GetBookDataTest --test-level RunSpecifiedTests --target-org TargetOrg`
 
@@ -14,7 +14,7 @@ all tests in the target org with `--test-level RunLocalTests`. This might fail i
 Make sure that Dev Hub and the Enable Unlocked Packages settings are enabled and that the development org (alias DevOrg) is registered as the Dev Hub.
 Then, you can create an unlocked package with
 
-`sf package create --name challenge --description "Components to deploy for the challenge" --package-type Unlocked --path force-app`
+`sf package create --name challenge --description "Components to deploy for the challenge" --package-type Unlocked --path force-app --target-dev-hub DevOrg`
 
 Create a new version with (insert a key of choice)
 
